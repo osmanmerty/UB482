@@ -13,7 +13,7 @@ namespace UB482
         public ComboBox comboBox { get; set; }
         public TextBox[] textBoxes { get; set; }
         private SerialPort _serialPort;
-        Data data = new Data();
+        
         public bool isEnabled = false;
         public string readBuffer;
         public SerialPortManager(SerialPort serialPort)
@@ -40,7 +40,7 @@ namespace UB482
             _serialPort.Close();
         }
         
-        public void SplitBuffer()
+        public void SplitBuffer(Data data)
         {
             string[] dataWithHeader = readBuffer.Split(';');
             Data.header = dataWithHeader[0];

@@ -58,7 +58,7 @@ namespace UB482
             {
                 serialPortManager.readBuffer = serialPort1.ReadLine();
                 rawByteMonitor.Text += serialPortManager.readBuffer + "\n";
-                serialPortManager.SplitBuffer();
+                serialPortManager.SplitBuffer(data);
             }
         }
 
