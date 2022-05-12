@@ -55,8 +55,29 @@ namespace UB482
 
                 i++;
             }
-            i = 31;
         }
-    
+
+        public void ViewData(Data data)
+        {
+            string[] a = null;
+            int i;
+            for (i = 0; i < 49; i++)
+            {
+                if (i < 41)
+                {
+                    textBoxes[i].Text = Convert.ToString(i);
+                }
+                else if (i < 48) //7 tane gidicez
+                {
+
+                    textBoxes[i].Text = data.datas[i + 2];
+                }
+                else // 2 tane atladik 1 tane aldik
+                {
+                    textBoxes[i].Text = data.datas[i + 4];
+                }
+            }
+            
+        }
     }   
 }

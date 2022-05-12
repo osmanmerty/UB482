@@ -17,7 +17,7 @@ namespace UB482
             xigLat, xigLon, xigAlt, xigEcefX, xigEcefY, xigEcefZ, baseLat, baseLon,
             baseAlt, secLat, secLon, secAlt, gpsWeekSecond, diffage, speedHeading,
             undulation, remainFloat3, remainFloat4, numGalStatus, remainChar2,
-            remainChar3, remainChar4, crc;
+            remainChar3, remainChar4, crc; 
 
         public string[] datas = new string[]
         {

@@ -30,7 +30,7 @@ namespace UB482
             {
                 //no header first byte
                 gnssTextBox, msgLenTextBox, yearTextBox, monthTextBox,
-                dayTextBox, minTextBox, secTextBox, rtkStatTextBox,
+                dayTextBox, hourTextBox, minTextBox, secTextBox, rtkStatTextBox,
                 headingStatTextBox, gpsStatTextBox, gloStatTextBox,
                 bdsStatTextBox, baselineNTextBox, baselineETextBox,
                 baselineUTextBox, baselineNStdTextBox, baselineEStdTextBox,
@@ -51,6 +51,7 @@ namespace UB482
         {
             comboBox1.Items.AddRange(serialPortManager.CheckSerialPort());
             comboBox1.SelectedIndex = 0;
+            Console.WriteLine("anannei raki masasina meze edeyim");
         }
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
@@ -59,6 +60,9 @@ namespace UB482
                 serialPortManager.readBuffer = serialPort1.ReadLine();
                 rawByteMonitor.Text += serialPortManager.readBuffer + "\n";
                 serialPortManager.SplitBuffer(data);
+                serialPortManager.ViewData(data);
+                Console.WriteLine(Data.secAlt);
+                Console.WriteLine(data.datas[49]);
             }
         }
 
