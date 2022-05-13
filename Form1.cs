@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,17 @@ namespace UB482
 {
     public partial class Form1 : Form
     {
+
+        #region .. Double Buffered function ..
+        public static void SetDoubleBuffered(System.Windows.Forms.Control c)
+        {
+            if (System.Windows.Forms.SystemInformation.TerminalServerSession)
+                return;
+            System.Reflection.PropertyInfo aProp = typeof(System.Windows.Forms.Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            aProp.SetValue(c, true, null);
+        }
+        #endregion
+
         //object defining
         SerialPortManager serialPortManager;
         Data data;
@@ -50,8 +62,18 @@ namespace UB482
         private void Form1_Load(object sender, EventArgs e)
         {
             comboBox1.Items.AddRange(serialPortManager.CheckSerialPort());
-            comboBox1.SelectedIndex = 0;
-            Console.WriteLine("anannei raki masasina meze edeyim");
+            try
+            {
+                comboBox1.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            foreach (var textBox in textBoxes)
+            {
+                SetDoubleBuffered(textBox);
+            }
         }
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
@@ -60,9 +82,9 @@ namespace UB482
                 serialPortManager.readBuffer = serialPort1.ReadLine();
                 rawByteMonitor.Text += serialPortManager.readBuffer + "\n";
                 serialPortManager.SplitBuffer(data);
-                serialPortManager.ViewData(data);
-                Console.WriteLine(Data.secAlt);
-                Console.WriteLine(data.datas[49]);
+                serialPortManager.ViewDataAsync(data);
+                serialPortManager.receivedPacket++;
+                data.LogDataAsync();
             }
         }
 
@@ -73,13 +95,26 @@ namespace UB482
             {
                 serialPortManager.comboBox = comboBox1;
                 serialPortManager.OpenConnection();
+                timer1.Start();
             }
             else
             {
                 serialPortManager.CloseConnection();
                 comboBox1.Items.AddRange(serialPortManager.CheckSerialPort());
+                timer1.Stop();
             }
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timeIntervalTextBox.Text = serialPortManager.receivedPacket.ToString();
+            serialPortManager.receivedPacket = 0;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            data.CloseFile();
         }
     }
 }

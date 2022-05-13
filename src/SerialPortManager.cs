@@ -16,6 +16,9 @@ namespace UB482
         
         public bool isEnabled = false;
         public string readBuffer;
+
+        public int receivedPacket;
+
         public SerialPortManager(SerialPort serialPort)
         {
             _serialPort = serialPort;
@@ -57,7 +60,7 @@ namespace UB482
             }
         }
 
-        public async void ViewData(Data data)
+        public async void ViewDataAsync(Data data)
         {
             await Task.Run(() =>
             {
