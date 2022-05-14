@@ -9,10 +9,10 @@ namespace UB482
 {
     class Data
     {
-        StreamWriter writer;
+        public StreamWriter writer;
         public Data()
         {
-            string path = "am" + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".csv";
+            string path = "log_" + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".csv";
             writer = new StreamWriter(path);
             AddHeader();
         }
@@ -43,7 +43,7 @@ namespace UB482
             remainChar3, remainChar4, crc
         };
 
-        private string[] logString = new string[]
+        public string[] logString = new string[]
         {
             gnss, length, year, month,
             day, minute, second, rtkStatus, headingStatus,
@@ -55,21 +55,21 @@ namespace UB482
             undulation, numGalStatus
         };
 
-        public async void LogDataAsync()
-        {
-            await Task.Run(() =>
-            {
-                foreach (var singleData in logString)
-                {
-                    writer.Write(singleData);
-                }
-                writer.WriteLine();
-            });
-        }
+        //public async void LogDataAsync()
+        //{
+        //    await Task.Run(() =>
+        //    {
+        //        foreach (var singleData in logString)
+        //        {
+        //            writer.Write(singleData + ",");
+        //        }
+        //        writer.WriteLine();
+        //    });
+        //}
 
         public void AddHeader()
         {
-            string header = "gnss,length,year,month,day,minute,second,rtkStat,headingStat,numGpsStatus,numGloStatus,numBdsStatus,heading,gpsPitch,gpsRoll,gpsSpeed,VelN,velE,velUp,xigVx,xigVy,xigVz,latitude,longitude,roverHei,ecefX,ecefY,ecefZ,xigLat,xigLon,xigAlt,xigEcefX,xigEcefY,xigEcefZ,secLat,secLon,secAlt,gpsWeekSec,diffage,speedHeading,undulation,galStat";
+            string header = "gnss, msgLen, year, month,day, hour, min, sec, rtkStat,headingStat, gpsStat, gloStat,bdsStat, baselineN, baselineE,baselineU, baselineNStd, baselineEStd,baselineUStd, heading, gpsPitch, gpsRoll,gpsSpeed, velN, velE, velUp, xigVx, xigVy, xigVz, lat, lon,roverHei, ecefX, ecefY, ecefZ, xigLat,xigLon, xigAlt, xigEcefX, xigEcefY,xigEcefZ,secLat, secLon,secAlt, gpsWeekSec, diffage, speedHeading, undulation,galStat";
             writer.WriteLine(header);
         }
         

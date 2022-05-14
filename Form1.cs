@@ -84,7 +84,7 @@ namespace UB482
                 serialPortManager.SplitBuffer(data);
                 serialPortManager.ViewDataAsync(data);
                 serialPortManager.receivedPacket++;
-                data.LogDataAsync();
+                //serialPortManager.LogDataAsync(data);
             }
         }
 

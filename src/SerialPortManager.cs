@@ -13,7 +13,7 @@ namespace UB482
         public ComboBox comboBox { get; set; }
         public TextBox[] textBoxes { get; set; }
         private SerialPort _serialPort;
-        
+
         public bool isEnabled = false;
         public string readBuffer;
 
@@ -23,7 +23,7 @@ namespace UB482
         {
             _serialPort = serialPort;
         }
-    
+
         public string[] CheckSerialPort()
         {
             return SerialPort.GetPortNames();
@@ -42,7 +42,7 @@ namespace UB482
             isEnabled = false;
             _serialPort.Close();
         }
-        
+
         public void SplitBuffer(Data data)
         {
             string[] dataWithHeader = readBuffer.Split(';');
@@ -51,7 +51,7 @@ namespace UB482
             string[] splittedData = dataWithHeader[1].Split(',');
 
             int i = 0;
-            
+
             foreach (var rawData in splittedData)
             {
                 data.datas[i] = splittedData[i];
@@ -69,20 +69,49 @@ namespace UB482
                 {
                     if (i < 41)
                     {
-                        textBoxes[i].Text = Convert.ToString(i);
+                        textBoxes[i].Text = data.datas[i];
+                        data.writer.Write(data.datas[i] + ",");
                     }
                     else if (i < 48) //7 tane gidicez
                     {
 
                         textBoxes[i].Text = data.datas[i + 2];
+                        data.writer.Write(data.datas[i + 2] + ",");
                     }
                     else // 2 tane atladik 1 tane aldik
                     {
-                        textBoxes[i].Text = data.datas[i + 4];
+                        textBoxes[i].Text = data.datas[i + 5];
+                        data.writer.Write(data.datas[i + 5] + ",");
                     }
                 }
+                data.writer.WriteLine();
             });
-            
+
         }
-    }   
+        public async void LogDataAsync(Data data)
+        {
+            await Task.Run(() =>
+            {
+                //    string[] datas = new string[]
+                //{
+                //data.gnss, length, year, month,
+                //day, minute, second, rtkStatus, headingStatus,
+                //numGpsStatus, numGloStatus, numBdsStatus, baselineN,
+                //baselineE, baselineU, baselineNStd, baselineEsStd, baselineUStd,
+                //heading, gpsPitch, gpsRoll, gpsSpeed, velN, velE, velUP, xigVx,
+                //xigVy, xigVz, latitude, longitude, roverHei, ecefX, ecefY, ecefZ,
+                //xigLat, xigLon, xigAlt, xigEcefX, xigEcefY, xigEcefZ, baseLat, baseLon,
+                //baseAlt, secLat, secLon, secAlt, gpsWeekSecond, diffage, speedHeading,
+                //undulation, remainFloat3, remainFloat4, numGalStatus, remainChar2,
+                //remainChar3, remainChar4, crc
+                //};
+                foreach (var singleData in data.datas)
+            {
+                data.writer.Write(singleData + ",");
+                
+            }
+            data.writer.WriteLine();
+            });
+        }
+    }
 }
