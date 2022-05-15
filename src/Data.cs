@@ -33,7 +33,7 @@ namespace UB482
         {
             gnss, length, year, month,
             day, minute, second, rtkStatus, headingStatus,
-            numGpsStatus, numGloStatus, numBdsStatus, baselineN,
+            numGpsStatus, numBdsStatus, numGloStatus, baselineN,
             baselineE, baselineU, baselineNStd, baselineEsStd, baselineUStd,
             heading, gpsPitch, gpsRoll, gpsSpeed, velN, velE, velUP, xigVx,
             xigVy, xigVz, latitude, longitude, roverHei, ecefX, ecefY, ecefZ,
@@ -69,7 +69,7 @@ namespace UB482
 
         public void AddHeader()
         {
-            string header = "gnss, msgLen, year, month,day, hour, min, sec, rtkStat,headingStat, gpsStat, gloStat,bdsStat, baselineN, baselineE,baselineU, baselineNStd, baselineEStd,baselineUStd, heading, gpsPitch, gpsRoll,gpsSpeed, velN, velE, velUp, xigVx, xigVy, xigVz, lat, lon,roverHei, ecefX, ecefY, ecefZ, xigLat,xigLon, xigAlt, xigEcefX, xigEcefY,xigEcefZ,secLat, secLon,secAlt, gpsWeekSec, diffage, speedHeading, undulation,galStat";
+            string header = "gnss,msgLen,year,month,day,hour,min,sec,rtkStat,headingStat,gpsStat,bdsStat,gloStat,baselineN,baselineE,baselineU,baselineNStd,baselineEStd,baselineUStd,heading,gpsPitch,gpsRoll,gpsSpeed,velN,velE,velUp,xigVx,xigVy,xigVz,lat,lon,roverHei,ecefX,ecefY,ecefZ,xigLat,xigLon,xigAlt,xigEcefX,xigEcefY,xigEcefZ,secLat,secLon,secAlt,gpsWeekSec,diffage,speedHeading,undulation,galStat";
             writer.WriteLine(header);
         }
         
